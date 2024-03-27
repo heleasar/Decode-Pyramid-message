@@ -1,0 +1,32 @@
+def decode_pyramid_message(file_path):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+    # Parse the input file and map numbers to words
+    num_to_word = {}
+    for line in lines:
+        num, word = line.split()
+        num_to_word[int(num)] = word
+
+    # Determine the pyramid structure
+    # The key numbers are those at the end of each line in the pyramid
+    key_numbers = []
+    current_level = 1
+    total_numbers = 0
+
+    # Iterate until all numbers are accounted for
+    while total_numbers < len(num_to_word):
+        total_numbers += current_level
+        key_numbers.append(total_numbers)
+        current_level += 1
+
+    # Decode the message using the key numbers
+    message_words = [num_to_word[num] for num in key_numbers if num in num_to_word]
+    message = ' '.join(message_words)
+
+    return message
+
+# Example usage
+file_path = 'path_to_your_file.txt'  # Replace this with the actual file path
+message = decode_pyramid_message(file_path)
+print(message)
